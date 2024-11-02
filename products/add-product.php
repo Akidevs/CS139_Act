@@ -42,6 +42,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $priceErr = 'Price must be greater than 0.';
     }
 
+    if ($_FILES['product_image']['size'] > 5000000) {
+        $imageErr = 'Product image must not exceed 5MB.';
+    }
+
     $imageFileType = strtolower(pathinfo($image, PATHINFO_EXTENSION));
     if(empty($image)){
         $imageErr = 'Product image is required.';
@@ -49,7 +53,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $imageErr = 'Accepted files are jpg, jpeg, and png only.';
     }
 
-    // If there are validation errors, return them as JSON
+
     if(!empty($codeErr) || !empty($nameErr) || !empty($categoryErr) || !empty($priceErr) || !empty($imageErr)){
         echo json_encode([
             'status' => 'error',
